@@ -33,14 +33,14 @@
 # When using Gradle or Maven with auto-import, you should exclude module files,
 # since they will be recreated, and may cause churn.  Uncomment if using
 # auto-import.
-.idea/artifacts
-.idea/compiler.xml
-.idea/jarRepositories.xml
-.idea/modules.xml
-.idea/*.iml
-.idea/modules
-*.iml
-*.ipr
+# .idea/artifacts
+# .idea/compiler.xml
+# .idea/jarRepositories.xml
+# .idea/modules.xml
+# .idea/*.iml
+# .idea/modules
+# *.iml
+# *.ipr
 
 # CMake
 cmake-build-*/
@@ -108,14 +108,9 @@ fabric.properties
 ### Vuejs ###
 # Recommended template: Node.gitignore
 
-frontend/node_modules/
+node_modules/
 dist/
 npm-debug.log
 yarn-error.log
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,vuejs
-.idea/vcs.xml
-.idea/Quarter%20Break.iml
-.idea/modules.xml
-.idea/misc.xml
-.idea/inspectionProfiles/Project_Default.xml
