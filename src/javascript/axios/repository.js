@@ -1,8 +1,8 @@
 // repository.js
 import axios from "axios";
 
-const baseDomain = "http://localhost:6002"; // Local/development
-const baseURL = `${baseDomain}/api/`;
+const baseDomain = "http://localhost:8080"; // Local development.
+const baseURL = `${baseDomain}/gateway/`;
 
 export default axios.create({
     //60 sec timeout

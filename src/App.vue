@@ -13,7 +13,6 @@
                         @click.stop="drawer = !drawer"
                         class="hidden-md-and-up"
                 />
-
                 <v-img
                         class="hidden-sm-and-down mr-3"
                         src="../public/images/logo_small.png"
@@ -21,7 +20,6 @@
                         max-width="64px"
                         height="48px"
                 />
-
                 <v-img
                         class="hidden-md-and-up hidden-xs-only mr-3"
                         src="../public/images/logo_small.png"
@@ -50,9 +48,7 @@
                         hide-details="true"
                         placeholder="Search"
                 />
-
                 <v-icon>mdi-magnify</v-icon>
-
                 <router-link to="/settings">
                     <v-icon class="hidden-sm-and-down ml-3 hover">
                         mdi-cog
@@ -86,8 +82,9 @@
                     </v-list-item-title>
                     <v-divider/>
                     <v-list-item
-                            v-for="(item, i) in items"
+                            v-for="(item, i) in filteredItems"
                             :key="i"
+                            v-on:click="navigate(item.link)"
                     >
                         <v-list-item-icon>
                             <v-icon>{{item.icon}}</v-icon>
@@ -117,45 +114,62 @@
                 }
             }
         },
-        data: () => ({
-            drawer: false,
-            items: [
-                {
-                    navbar: true,
-                    name: "Home",
-                    icon: "mdi-home",
-                    link: "/"
-                },
-                {
-                    navbar: true,
-                    name: "Explore",
-                    icon: "mdi-compass",
-                    link: "/"
-                },
-                {
-                    navbar: true,
-                    name: "Friends",
-                    icon: "mdi-account-group",
-                    link: "/"
-                },
-                {
-                    navbar: true,
-                    name: "Profile",
-                    icon: "mdi-account",
-                    link: "/profile"
-                },
-                {
-                    navbar: false,
-                    name: "Settings",
-                    icon: "mdi-cog",
-                    link: "/"
-                }
-            ]
-        }),
+        data() {
+            return {
+                drawer: false,
+                isLoggedIn: this.$store.getters.isLoggedIn,
+                username: this.$store.getters.username,
+                items: [
+                    {
+                        visible: true,
+                        name: "Home",
+                        icon: "mdi-home",
+                        link: "/"
+                    },
+                    {
+                        visible: true,
+                        name: "Explore",
+                        icon: "mdi-compass",
+                        link: "/"
+                    },
+                    {
+                        visible: this.isLoggedIn,
+                        name: "Friends",
+                        icon: "mdi-account-group",
+                        link: "/"
+                    },
+                    {
+                        visible: this.isLoggedIn,
+                        name: "Profile",
+                        icon: "mdi-account",
+                        link: "/profile"
+                    },
+                    {
+                        visible: !this.isLoggedIn,
+                        name: "Login",
+                        icon: "mdi-account",
+                        link: "/login"
+                    },
+                    {
+                        visible: !this.isLoggedIn,
+                        name: "Register",
+                        icon: "mdi-account-plus",
+                        link: "/register"
+                    },
+                    {
+                        visible: false,
+                        name: "Settings",
+                        icon: "mdi-cog",
+                        link: "/"
+                    }
+                ],
+            }
+        },
         computed: {
+            // This method filters the items list on the visibility parameter.
             filteredItems() {
                 return this.items.filter(item => {
-                    if (item.navbar) {
+                    if (item.visible) {
                         return item;
                     }
                 })
@@ -164,13 +178,6 @@
     };
 </script>
 
-<style>
-    .search-width {
-        min-width: 260px !important;
-        max-width: 320px !important;
-    }
-
-    .hover:hover {
-        transform: scale(1.3) rotate(90deg);
-    }
+<style lang="scss">
+    @import '~/src/styles/variables.scss';
 </style>

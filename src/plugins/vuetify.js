@@ -11,6 +11,7 @@ export default new Vuetify({
                 secondary: '#59C9A5', // Ocean Green
                 accent: '#EF6F6C', // Light Coral
                 error: '#b71c1c',
+                background: '#e6e6e6'
             },
         },
     },

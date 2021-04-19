@@ -8,6 +8,14 @@ import SecureLS from 'secure-ls';
 
 Vue.use(Vuex);
 
+let storage = {
+    ISLOGGEDIN: 'isLoggedIn',
+    USERNAME: 'username',
+    ID: 'id',
+    TOKEN: 'token',
+    TIME: 'saveTime'
+};
+
 const ls = new SecureLS({encodingType: 'aes', isCompression: false});
 const LOGIN = "LOGIN";
 const LOGOUT = "LOGOUT";
@@ -16,23 +24,26 @@ const date = today.getTime();
 
 const store = new Vuex.Store({
     state: {
-        isLoggedIn: ls.get('isLoggedIn').data,
-        username: ls.get('username').data,
-        token: ls.get('token').data,
-        date: ls.get('saveTime')
+        isLoggedIn: ls.get(storage.ISLOGGEDIN).data,
+        username: ls.get(storage.USERNAME).data,
+        id: ls.get(storage.ID).data,
+        token: ls.get(storage.TOKEN).data,
+        date: ls.get(storage.TIME)
     },
     mutations: {
         // Add user data to state.
         [LOGIN](state, authRequest) {
             state.isLoggedIn = true;
             state.username = authRequest.username;
+            state.id = authRequest.id;
             state.token = authRequest.token;
 
             // Persist data to ls.
-            ls.set('isLoggedIn', {data: state.isLoggedIn});
-            ls.set('username', {data: state.username});
-            ls.set('token', {data: state.token});
-            ls.set('saveTime', date);
+            ls.set(storage.ISLOGGEDIN, {data: state.isLoggedIn});
+            ls.set(storage.USERNAME, {data: state.username});
+            ls.set(storage.ID, {data: state.id});
+            ls.set(storage.TOKEN, {data: state.token});
+            ls.set(storage.TIME, date);
         },
         // Remove all data from state and clear ls.
         [LOGOUT](state) {
@@ -64,7 +75,7 @@ const store = new Vuex.Store({
         },
         token: state => {
             // Get date the token was saved to ls.
-            const saveTime = ls.get('saveTime');
+            const saveTime = ls.get(storage.TIME);
             // Get current date minus 7 days.
             const current = today.getTime() - 86400000;
             if (saveTime > current) {
