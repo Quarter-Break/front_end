@@ -45,6 +45,12 @@
         name: "LoginPage",
         components: {
             Title
+        },
+        data() {
+            return {
+                email: "",
+                password: ""
+            }
         }
     }
 </script>
