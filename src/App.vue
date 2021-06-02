@@ -38,6 +38,12 @@
                     >
                         <span>{{item.name}}</span>
                     </v-tab>
+                    <v-tab
+                            v-if="this.$store.getters.isLoggedIn"
+                    v-on:click="logout"
+                    >
+                        Logout
+                    </v-tab>
                 </v-tabs>
 
                 <v-text-field
@@ -112,6 +118,11 @@
                     this.$router.push(destination).catch(() => {
                     });
                 }
+            },
+            logout(){
+                this.$store.dispatch("logout").then(() => {
+                    this.$router.push("/home");
+                });
             }
         },
         data() {
@@ -133,25 +144,25 @@
                         link: "/"
                     },
                     {
-                        visible: this.isLoggedIn,
+                        visible: this.$store.getters.isLoggedIn,
                         name: "Friends",
                         icon: "mdi-account-group",
                         link: "/"
                     },
                     {
-                        visible: this.isLoggedIn,
+                        visible: this.$store.getters.isLoggedIn,
                         name: "Profile",
                         icon: "mdi-account",
                         link: "/profile"
                     },
                     {
-                        visible: !this.isLoggedIn,
+                        visible: !this.$store.getters.isLoggedIn,
                         name: "Login",
                         icon: "mdi-account",
                         link: "/login"
                     },
                     {
-                        visible: !this.isLoggedIn,
+                        visible: !this.$store.getters.isLoggedIn,
                         name: "Register",
                         icon: "mdi-account-plus",
                         link: "/register"
@@ -174,7 +185,7 @@
                     }
                 })
             }
-        }
+        },
     };
 </script>
 

@@ -9,30 +9,38 @@
                 justify="center"
         >
             <v-col>
-                <v-card
-                        class="mx-auto px-9 py-9"
-                        max-width="32rem"
-                >
-                    <Title text="Login"/>
-                    <div class="my-6 py-6">
-                        <v-text-field
-                                label="Email"
-                                hide-details="auto"
-                        />
-                        <v-text-field
-                                type="password"
-                                class="pt-6"
-                                label="Password"
-                                hide-details="auto"
-                        />
-                    </div>
-                    <v-btn
-                            color="primary"
-                            block
+                <v-form v-model="valid" ref="form">
+                    <v-card
+                            class="mx-auto px-9 py-9"
+                            max-width="32rem"
                     >
-                        Login
-                    </v-btn>
-                </v-card>
+                        <Title text="Login"/>
+                        <div class="my-6 py-6">
+                            <v-text-field
+                                    class="pt-6"
+                                    label="Email"
+                                    :rules="emailRules"
+                                    hide-details="auto"
+                                    v-model="email"
+                            />
+                            <v-text-field
+                                    type="password"
+                                    class="pt-6"
+                                    label="Password"
+                                    :rules="passwordRules"
+                                    hide-details="auto"
+                                    v-model="password"
+                            />
+                        </div>
+                        <v-btn
+                                color="primary"
+                                block
+                                v-on:click="login"
+                        >
+                            Login
+                        </v-btn>
+                    </v-card>
+                </v-form>
             </v-col>
         </v-row>
     </v-container>
@@ -40,6 +48,7 @@
 
 <script>
     import Title from "../../components/Title";
+    import user_service from "../../javascript/axios/user/user_service";
 
     export default {
         name: "LoginPage",
@@ -48,8 +57,48 @@
         },
         data() {
             return {
+                valid: false,
                 email: "",
-                password: ""
+                password: "",
+                emailRules: [
+                    value => !!value || 'Required.',
+                    value => {
+                        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                        return pattern.test(value) || 'Invalid e-mail.'
+                    }
+                ],
+                passwordRules: [
+                    value => !!value || 'Required.',
+                    value => (value || '').length <= 50 || 'Maximum 50 characters',
+                    value => (value || '').length >= 8 || 'Minimum 8 characters',
+                    value => {
+                        const pattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/;
+                        return pattern.test(value) || 'Password must contain at least one capital letter and one number.'
+                    }
+                ]
+            }
+        },
+        methods: {
+            async login() {
+                if (this.$refs.form.validate()) {
+                    const loginRequest = {
+                        email: this.email,
+                        password: this.password
+                    };
+
+                    let response = await user_service.login(loginRequest);
+                    if (response.status === 200) {
+                        let authRequest = {
+                            id: response.data.id,
+                            username: response.data.username,
+                            token: response.data.token
+                        };
+                        console.log(authRequest);
+                        this.$store.dispatch("login", authRequest).then(() => {
+                            this.$router.push("/home");
+                        });
+                    }
+                }
             }
         }
     }

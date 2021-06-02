@@ -13,6 +13,10 @@
         </v-img>
 
         <v-container>
+            <h1>Welcome, {{this.username}}</h1>
+        </v-container>
+
+        <v-container>
             <div class="d-flex wrapping">
                 <v-col>
                     <h1 class="text-h4 font-weight-thin">About {{artist}}</h1>
@@ -85,49 +89,52 @@
 <script>
     export default {
         name: 'Home',
-        data: () => ({
-            artist: "Rocket Baby Dolls",
-            image: "example-bg.png",
-            about: "Rocket Baby Dolls are an English rock band from Teignmouth, Devon, formed in 1994. The band consists of " +
-                "Matt Bellamy (lead vocals, guitar, keyboards), Chris Wolstenholme (bass guitar, backing vocals), " +
-                "and Dominic Howard (drums).\n" +
-                "\n" +
-                "Rocket Baby Dolls released their debut album, Showbiz, in 1999, showcasing Bellamy's falsetto and a " +
-                "melancholic alternative rock style. Their second album, Origin of Symmetry (2001), incorporated wider " +
-                "instrumentation and romantic classical influences, featured their acclaimed cover of \"Feeling Good\", and " +
-                "earned them a reputation for energetic live performances.[1] Absolution (2003) saw further classical " +
-                "influence, with strings on tracks such as \"Butterflies and Hurricanes\", and was the first of six " +
-                "consecutive UK number-one albums. ",
-            topTracks: [
-                {title: "Creep", rank: 1},
-                {title: "Apocalypse Please", rank: 2},
-                {title: "When the Sun Goes Down", rank: 3},
-                {title: "Execution Commentary", rank: 4},
-                {title: "Violet Hill", rank: 5},
-            ],
-            selectedTrack: null,
-            albums: [
-                {title: "Showbizz"},
-                {title: "Origin of Symmetry"},
-                {title: "Absolution"},
-                {title: "Black Holes and Revelations"},
-                {title: "The Resistance"}
-            ],
-            colors: [
-                'indigo',
-                'warning',
-                'pink darken-2',
-                'red lighten-1',
-                'deep-purple accent-4',
-            ],
-            slides: [
-                'First',
-                'Second',
-                'Third',
-                'Fourth',
-                'Fifth',
-            ],
-        })
+        data() {
+            return {
+                artist: "Rocket Baby Dolls",
+                username: this.$store.getters.username,
+                image: "example-bg.png",
+                about: "Rocket Baby Dolls are an English rock band from Teignmouth, Devon, formed in 1994. The band consists of " +
+                    "Matt Bellamy (lead vocals, guitar, keyboards), Chris Wolstenholme (bass guitar, backing vocals), " +
+                    "and Dominic Howard (drums).\n" +
+                    "\n" +
+                    "Rocket Baby Dolls released their debut album, Showbiz, in 1999, showcasing Bellamy's falsetto and a " +
+                    "melancholic alternative rock style. Their second album, Origin of Symmetry (2001), incorporated wider " +
+                    "instrumentation and romantic classical influences, featured their acclaimed cover of \"Feeling Good\", and " +
+                    "earned them a reputation for energetic live performances.[1] Absolution (2003) saw further classical " +
+                    "influence, with strings on tracks such as \"Butterflies and Hurricanes\", and was the first of six " +
+                    "consecutive UK number-one albums. ",
+                topTracks: [
+                    {title: "Creep", rank: 1},
+                    {title: "Apocalypse Please", rank: 2},
+                    {title: "When the Sun Goes Down", rank: 3},
+                    {title: "Execution Commentary", rank: 4},
+                    {title: "Violet Hill", rank: 5},
+                ],
+                selectedTrack: null,
+                albums: [
+                    {title: "Showbizz"},
+                    {title: "Origin of Symmetry"},
+                    {title: "Absolution"},
+                    {title: "Black Holes and Revelations"},
+                    {title: "The Resistance"}
+                ],
+                colors: [
+                    'indigo',
+                    'warning',
+                    'pink darken-2',
+                    'red lighten-1',
+                    'deep-purple accent-4',
+                ],
+                slides: [
+                    'First',
+                    'Second',
+                    'Third',
+                    'Fourth',
+                    'Fifth',
+                ]
+            }
+        }
     }
 </script>
 
